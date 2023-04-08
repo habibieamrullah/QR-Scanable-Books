@@ -85,6 +85,7 @@ if(isset($_GET["tambahbuku"])){
                 data: new FormData($('#uploadform')[0]),
                 success: function(data){
                     // Do something on success
+                    //alert(data);
                     location.href="?admin";
                 },
                 cache: false,

@@ -3,7 +3,7 @@ include("db.php");
 include("functions.php");
 
 if(isset($_POST["username"]) && isset($_POST["password"])){
-    if($_POST["username"] == $unm && $_POST["username"] == $pwd){
+    if($_POST["username"] == $unm && $_POST["password"] == $pwd){
         $target_dir = "upl/";
         $target_file = $target_dir . basename($_FILES["pdf"]["name"]);
         $uniqid = uniqid();
