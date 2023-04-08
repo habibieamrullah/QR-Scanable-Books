@@ -1,6 +1,8 @@
 body{
     
     background-color: #f5f5f5;
+    
+    background: url(bg.jpg) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;
 
     margin: 0px;
     padding: 0px;
@@ -94,4 +96,16 @@ table th {
 
 .submitbutton:hover{
     background-color: #00a7c4;
+}
+
+.categoryitem{
+    padding: 0.5em;
+    cursor: pointer;
+    border-bottom: 1px solid white;
+    transition: all 0.5s;
+}
+
+.categoryitem:hover{
+    background-color: white;
+    color: #00a7c4;
 }

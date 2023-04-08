@@ -5,9 +5,9 @@ session_start();
 include("db.php");
 
 
-$title = "Perpus ICC Jakarta";
+$title = $booksitetitle;
 $content = "";
-$footer = "<div align='center' style='padding: 3em;'>Dikembangkan oleh <a href='https://webappdev.my.id/'>WebAppDev</a></div>";
+$footer = "<div align='center' style='padding: 3em;'>© " . date("Y") . " Kanz Digital Library. All rights reserved.</div>";
 
 //Halaman Admin
 if(isset($_GET["admin"])){
@@ -51,4 +51,9 @@ if(isset($_GET["admin"])){
     
     
     $content = $stitle . $scontent;
+}else{
+    ob_start();                      
+    include('home.php');   
+    $content = ob_get_contents();    
+    ob_end_clean();
 }
