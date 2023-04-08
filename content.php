@@ -6,13 +6,14 @@ include("db.php");
 
 
 $title = "Scan Buku - Perpus ICC Jakarta";
-$content = "Konten";
+$content = "";
 $footer = "<div style='text-align: center;'>
     <div class='footeritem'><a href='index.php'>Beranda</a></div>
     <div class='footeritem'>Blah</div>
     <div class='footeritem'>Blah</div>
     <div class='footeritem'>Blah</div>
 </div>";
+$footer = "<div align='center'>Shalawat</div>";
 
 //Halaman Admin
 if(isset($_GET["admin"])){

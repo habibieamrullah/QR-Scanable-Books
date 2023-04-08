@@ -2,6 +2,8 @@
 
 $unm = "admin";
 $pwd = "admin";
+$baseurl = "https://scanbuku.perpusiccjakarta.id";
+$booksitetitle = "Perpus ICC Jakarta";
 
 //Database connection
 $host = "localhost";
