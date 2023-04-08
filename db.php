@@ -2,14 +2,14 @@
 
 $unm = "admin";
 $pwd = "admin";
-$baseurl = "https://scanbuku.perpusiccjakarta.id";
-$booksitetitle = "Perpus ICC Jakarta";
+$baseurl = "https://website.com";
+$booksitetitle = "Scan Buku";
 
 //Database connection
 $host = "localhost";
-$dbuser = "perq7182_scanbuku";
-$dbpassword = "anvrKa7I[guZ";
-$databasename = "perq7182_scanbuku";
+$dbuser = "user";
+$dbpassword = "password";
+$databasename = "db";
 
 $connection = mysqli_connect($host, $dbuser, $dbpassword, $databasename);
 $connection->set_charset("utf8"); 

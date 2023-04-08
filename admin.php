@@ -17,9 +17,12 @@ mysqli_query($connection, $sqlBooks);
 mysqli_query($connection, $sqlCategories);
 
 ?>
-<a href="?admin">Semua Buku</a> | 
-<a href="?admin&tambahbuku">Tambah Buku</a> | 
-<a href="?admin&kategoribuku">Pengaturan Kategori</a> | 
+<div style="background-color: black; color: white; border-radius: 0.3em; padding: 0.3em; margin-bottom: 1em; font-size: 0.9em; font-weight: bold;">
+    <a href="?admin"><i class="fa fa-book"></i> Semua Buku</a> | 
+    <a href="?admin&tambahbuku"><i class="fa fa-plus"></i> Tambah Buku</a> | 
+    <a href="?admin&kategoribuku"><i class="fa fa-tag"></i> Kategori</a> | 
+    <a href="?admin&logout"><i class="fa fa-sign-out"></i> Keluar</a>
+</div>
 <?php
 
 if(isset($_GET["tambahbuku"])){
@@ -51,7 +54,7 @@ if(isset($_GET["tambahbuku"])){
             </select><br>
             <input name="username" value="<?php echo $unm ?>" style="display: none;"><input name="password" value="<?php echo $pwd ?>" style="display: none;">
         </form>
-        <button onclick="uploadContent()">Upload</button>
+        <button onclick="uploadContent()" class="submitbutton">Upload</button>
     </div>
     <div id="progressblock" style="display: none; background-color: #f5f5f5;">
         <h3 align="center">Tunggu sejenak, sedang proses upload... <span id="upperc">0</span>%</h3>
@@ -121,7 +124,7 @@ if(isset($_GET["tambahbuku"])){
                     }else{
                         ?>
             
-                        <h3>Edit Kategori</h3>
+                        <h4>Edit Kategori</h4>
                         <form method="post">
                             <input name="newcategorytitle" value="<?php echo $row["title"] ?>"><br>
                             <input type="submit" value="Perbarui">
@@ -148,7 +151,7 @@ if(isset($_GET["tambahbuku"])){
             if($result){
                 if(mysqli_num_rows($result) > 0){
                     while($row = mysqli_fetch_assoc($result)){
-                        echo "- " . $row["title"] . " | <a href='?admin&kategoribuku&edit=" . $row["id"] . "'>Edit</a> | <a href='?admin&kategoribuku&hapus=" . $row["id"] . "'>Hapus</a><br>";
+                        echo "<div class='categorylist'><div style='display: table-cell;'><i class='fa fa-tag'></i> " . $row["title"] . "</div><div style='display: table-cell; text-align: right;'><a href='?admin&kategoribuku&edit=" . $row["id"] . "'><i class='fa fa-edit'></i> Edit</a> | <a href='?admin&kategoribuku&hapus=" . $row["id"] . "'><i class='fa fa-trash'></i> Hapus</a></div></div>";
                     }
                 }else{
                     echo "Belum ada kategori yang ditambahkan.";
@@ -157,12 +160,12 @@ if(isset($_GET["tambahbuku"])){
             
             ?>
         
-            <h2>Tambah Kategori</h2>
+            <h4>Tambah Kategori</h4>
             <form method="post">
                 <input name="categorytitle"><br>
-                <input type="submit" value="Tambahkan">
+                <input type="submit" value="Tambahkan" class="submitbutton">
             </form>
-        
+            
             <?php
         }
         
@@ -170,6 +173,9 @@ if(isset($_GET["tambahbuku"])){
     }
     
    
+}else if(isset($_GET["logout"])){
+    session_destroy();
+    echo "<script>location.href='?admin';</script>";
 }else{
     
     if(isset($_GET["hapusbuku"])){
@@ -210,8 +216,8 @@ if(isset($_GET["tambahbuku"])){
                     ?>
                     <tr>
                         <td><?php echo $row["title"] ?></td>
-                        <td><a href="upl/<?php echo $row["slug"] ?>-qr.png" target="_blank">Tampilkan QRCode</a></td>
-                        <td><a href="?admin&hapusbuku=<?php echo $row["id"] ?>">Hapus</a></td>
+                        <td><a href="upl/<?php echo $row["slug"] ?>-qr.png" target="_blank"><i class='fa fa-qrcode'></i> Tampilkan QRCode</a></td>
+                        <td><a href="?admin&hapusbuku=<?php echo $row["id"] ?>"><i class='fa fa-trash'></i> Hapus</a></td>
                     </tr>
                     <?php
                 }

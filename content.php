@@ -5,21 +5,15 @@ session_start();
 include("db.php");
 
 
-$title = "Scan Buku - Perpus ICC Jakarta";
+$title = "Perpus ICC Jakarta";
 $content = "";
-$footer = "<div style='text-align: center;'>
-    <div class='footeritem'><a href='index.php'>Beranda</a></div>
-    <div class='footeritem'>Blah</div>
-    <div class='footeritem'>Blah</div>
-    <div class='footeritem'>Blah</div>
-</div>";
-$footer = "<div align='center'>Shalawat</div>";
+$footer = "<div align='center' style='padding: 3em;'>Dikembangkan oleh <a href='https://webappdev.my.id/'>WebAppDev</a></div>";
 
 //Halaman Admin
 if(isset($_GET["admin"])){
     
     $title = "Halaman Admin";
-    $stitle = "<h1>Halaman Admin!</h1>";
+    $stitle = "<h1 style='margin-bottom: 1em;'>Halaman Admin</h1>";
     
     if(isset($_SESSION["username"])){
         ob_start();                      
@@ -43,11 +37,14 @@ if(isset($_GET["admin"])){
             }
         }else{
             $scontent = '
-                <form method="post">
-                    <input type="text" placeholder="Username" name="username"><br>
-                    <input type="password" placeholder="Password" name="password"><br>
-                    <input type="submit" value="Login">
-                </form>
+                <div class="loginblock">
+                    <h2>Silahkan login terlebih dahulu</h2>
+                    <form method="post">
+                        <input type="text" placeholder="Username" name="username"><br>
+                        <input type="password" placeholder="Password" name="password"><br>
+                        <input type="submit" value="Login" class="submitbutton">
+                    </form>
+                </div>
             ';
         }
     }
