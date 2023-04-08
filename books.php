@@ -62,7 +62,7 @@ include("db.php");
         <script>
             function openbook(slug){
                 //alert(slug);
-                $("body").append('<div id="myweb" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;"> <iframe src="upl/' +slug+ '.pdf#toolbar=0" width="100%" height="100%" title="Buku" style="border: none;"></iframe> </div>');
+                $("body").append('<div id="myweb" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;"> <iframe src="pdfjs/web/viewer.html?file=<?php echo $baseurl ?>/upl/' +slug+ '.pdf#toolbar=0" width="100%" height="100%" title="Buku" style="border: none;"></iframe> </div>');
             }
         </script>
     </body>
