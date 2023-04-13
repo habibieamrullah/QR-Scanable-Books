@@ -89,9 +89,12 @@ table th {
     color: white;
     font-weight: bold;
     border: none;
+    display: inline-block;
+    width: auto;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     cursor: pointer;
+    
 }
 
 .submitbutton:hover{

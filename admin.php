@@ -5,6 +5,7 @@ id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 title VARCHAR(30) NOT NULL,
 slug VARCHAR(30) NOT NULL,
 uniqid VARCHAR(30) NOT NULL,
+locked INT(6) NOT NULL,
 category INT(6) NOT NULL
 )";
 
@@ -13,14 +14,22 @@ id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 title VARCHAR(30) NOT NULL
 )";
 
+$sqlOptions = "CREATE TABLE IF NOT EXISTS options (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+opkey VARCHAR(30) NOT NULL,
+opvalue VARCHAR(30) NOT NULL
+)";
+
 mysqli_query($connection, $sqlBooks);
 mysqli_query($connection, $sqlCategories);
+mysqli_query($connection, $sqlOptions);
 
 ?>
 <div style="background-color: black; color: white; border-radius: 0.3em; padding: 0.3em; margin-bottom: 1em; font-size: 0.9em; font-weight: bold;">
     <a href="?admin"><i class="fa fa-book"></i> Semua Buku</a> | 
     <a href="?admin&tambahbuku"><i class="fa fa-plus"></i> Tambah Buku</a> | 
     <a href="?admin&kategoribuku"><i class="fa fa-tag"></i> Kategori</a> | 
+    <a href="?admin&pin"><i class="fa fa-unlock"></i> Pengaturan PIN</a> | 
     <a href="?admin&logout"><i class="fa fa-sign-out"></i> Keluar</a>
 </div>
 <?php
@@ -96,6 +105,48 @@ if(isset($_GET["tambahbuku"])){
         }
     </script>
     <?php
+}else if(isset($_GET["pin"])){
+    ?>
+    <h2>Pengaturan PIN</h2>
+    <p>PIN ini diperlukan oleh pengunjung untuk mengakses buku yang dikunci. Admin dapat mengatur buku apa yang dikunci dan tidak dikunci pada beranda Halaman Admin.</p>
+    <br><br>
+    
+    <?php
+    
+    
+    if(isset($_POST["newpin"])){
+        $newpin = mysqli_real_escape_string($connection, $_POST["newpin"]);
+        $sql = "SELECT * FROM options WHERE opkey = 'currentpin'";
+        $result = mysqli_query($connection, $sql);
+        if(mysqli_num_rows($result) > 0){
+            mysqli_query($connection, "UPDATE options SET opvalue = '$newpin' WHERE opkey = 'currentpin'");
+        }else{
+            mysqli_query($connection, "INSERT INTO options (opkey, opvalue) VALUES ('currentpin', '$newpin') ");
+        }
+        
+        echo "<h3>Pengaturan PIN disimpan.</h3><script>setTimeout(function(){location.href = '?admin&pin'},1500);</script>";
+    }else{
+        $currentpin = "";
+        $sql = "SELECT * FROM options";
+        $result = mysqli_query($connection, $sql);
+        if($result){
+            while($row = mysqli_fetch_assoc($result)){
+                if($row["opkey"] == "currentpin"){
+                    $currentpin = $row["opkey"];
+                }
+            }
+        }
+        
+        ?>
+        <form method="post">
+            <label>Masukkan PIN dan klik Simpan</label>
+            <input type="password" value="<?php echo $currentpin ?>" name="newpin">
+            <input type="submit" value="Simpan" class="submitbutton">
+        </form>
+        <?php
+        
+    }
+    
 }else if(isset($_GET["kategoribuku"])){
     
     ?>
@@ -159,6 +210,8 @@ if(isset($_GET["tambahbuku"])){
                 }
             }
             
+            
+            
             ?>
         
             <h4>Tambah Kategori</h4>
@@ -205,6 +258,17 @@ if(isset($_GET["tambahbuku"])){
             }
         }
     }else{
+        
+        if(isset($_GET["lock"])){
+            $id = mysqli_real_escape_string($connection, $_GET["lock"]);
+            mysqli_query($connection, "UPDATE books SET locked = 1 WHERE id = $id");
+        }
+        
+        if(isset($_GET["unlock"])){
+            $id = mysqli_real_escape_string($connection, $_GET["unlock"]);
+            mysqli_query($connection, "UPDATE books SET locked = 0 WHERE id = $id");
+        }
+        
         ?>
         <h2>Daftar Buku</h2>
         <?php
@@ -212,12 +276,13 @@ if(isset($_GET["tambahbuku"])){
         $result = mysqli_query($connection, $sql);
         if($result){
             if(mysqli_num_rows($result) > 0){
-                echo "<table><tr><th>Judul</th><th>QR Code</th><th>Hapus Buku</th></tr>";
+                echo "<table><tr><th>Judul</th><th>QR Code</th><th>Dikunci (PIN)</th><th>Hapus Buku</th></tr>";
                 while($row = mysqli_fetch_assoc($result)){
                     ?>
                     <tr>
                         <td><?php echo $row["title"] ?></td>
                         <td><a href="upl/<?php echo $row["slug"] ?>-qr.png" target="_blank"><i class='fa fa-qrcode'></i> Tampilkan QRCode</a></td>
+                        <td><?php if($row["locked"] == 0){echo "<a href='?admin&lock=" .$row["id"]. "'><i class='fa fa-toggle-off'></i></a>"; }else{echo "<a href='?admin&unlock=" .$row["id"]. "'><i class='fa fa-toggle-on'></i></a>";} ?></a></td>
                         <td><a href="?admin&hapusbuku=<?php echo $row["id"] ?>"><i class='fa fa-trash'></i> Hapus</a></td>
                     </tr>
                     <?php
