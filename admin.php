@@ -42,7 +42,7 @@ if(isset($_GET["tambahbuku"])){
         <form id="uploadform" method="post">
             <label>Judul</label>
             <input id="ftitle" name="title" placeholder="Judul"><br>
-            <label>Sampul</label>
+            <label>Sampul (disarankan 400 * 600 piksel)</label>
             <input type="file" name="cover" id="fcover" accept="image/png, image/jpeg"><br>
             <label>File PDF</label>
             <input type="file" name="pdf" id="fpdf" accept="application/pdf"><br>
