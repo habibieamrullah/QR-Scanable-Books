@@ -8,3 +8,9 @@ Some key features:
 - Automatically rename cover image and pdf files based on slugified book's title.
 - It has PIN feature enables Admin to lock some books with simple PIN/password.
 - It has a nice home page showing all the uploaded books with quick search / filter feature.
+
+# Setup Tutorial
+Watch this video (Bahasa Indonesia): https://youtu.be/kUvNOxGzfik
+
+# IMPORTANT : Make folder "upl"
+Please add empty folder "upl" on the root directory along side the index.php file.
