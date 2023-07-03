@@ -16,7 +16,8 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
             	if ($_FILES['pdf']['type'] == "application/pdf") {
             	    
             	    $pdfname = $_FILES["pdf"]["name"];
-                    $pdfext = end((explode(".", $pdfname)));
+            	    $tmp = explode(".", $pdfname);
+                    $pdfext = end($tmp);
             
             		$source_file = $_FILES['pdf']['tmp_name'];
             		//$dest_file = "upl/".$_FILES['pdf']['name'];
@@ -44,7 +45,8 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
             	if ($_FILES['cover']['type'] == "image/jpeg" || $_FILES['cover']['type'] == "image/jpg" || $_FILES['cover']['type'] == "image/png") {
             	    
             	    $covername = $_FILES["cover"]["name"];
-                    $coverext = end((explode(".", $covername)));
+            	    $tmp = explode(".", $covername);
+                    $coverext = end($tmp);
             
             		$source_file = $_FILES['cover']['tmp_name'];
             		//$dest_file = "upl/".$_FILES['pdf']['name'];
