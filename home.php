@@ -40,7 +40,7 @@
             while($row = mysqli_fetch_assoc($result)){
                 ?>
                 <div class="thumbnailblock" style="width: 100%; height: 100%;">
-                    <a href="books.php?code=<?php echo $row["uniqid"] ?>"><img src="upl/<?php echo $row["slug"] ?>.jpg" style="box-sizing: border-box; padding: 0.5em; display: inline-block; vertical-align: middle; width: 100%;"></a>
+                    <a href="books.php?code=<?php echo $row["uniqid"] ?>"><img src="upl/<?php echo $row["slug"] ?>.jpg" style="box-sizing: border-box; padding: 0.5em; display: inline-block; vertical-align: middle; width: 100%; height: 100%;"></a>
                     <p style="display: none;"><?php echo $row["title"] ?></p>
                 </div>
                 <?php
