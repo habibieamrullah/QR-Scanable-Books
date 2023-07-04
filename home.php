@@ -30,7 +30,7 @@
     
     if(isset($_GET["catid"])){
         $catid = mysqli_real_escape_string($connection, $_GET["catid"]);
-        echo "<h2 align='center'>Buku dalam Kategori " . mysqli_fetch_assoc(mysqli_query($connection, "SELECT * FROM categories WHERE id = $catid"))["title"] . "</h2>";
+        echo "<div style='padding: 2em; text-align: center;'><h2 align='center'>Buku dalam Kategori " . mysqli_fetch_assoc(mysqli_query($connection, "SELECT * FROM categories WHERE id = $catid"))["title"] . "</h2></div>";
         ?>
         
         <div style="text-align: center; display: grid; grid-template-columns: auto auto auto;">
@@ -73,20 +73,24 @@
                         $cresult = mysqli_query($connection, $sql);
                         if($cresult){
                             if(mysqli_num_rows($cresult) > 0){
+                                $ctr = 0;
                                 while($crow = mysqli_fetch_assoc($cresult)){
+                                    $ctr++;
                                     ?>
-                                    <div class="thumbnailblock" style="width: 100%; height: 100%;">
+                                    <div class="thumbnailblock" style="width: 100%; height: 100%; <?php if($ctr > 4){ echo "display: none;"; } ?>">
                                         <a href="books.php?code=<?php echo $crow["uniqid"] ?>"><img src="upl/<?php echo $crow["slug"] ?>.jpg" style="box-sizing: border-box; padding: 0.5em; display: inline-block; vertical-align: middle; width: 100%; height: 100%; border-radius: 1em;"></a>
                                         <p style="display: none;"><?php echo $crow["title"] ?></p>
                                     </div>
                                     <?php
                                 }
+                                
                             }
                         }
                         
                         ?>
-                        </div>
                         
+                        </div>
+                        <div style="text-align: center; display: block; width: 100%;"><a href="index.php?catid=<?php echo $catid ?>"><i class="fa fa-book"></i> Tampilkan Semua Buku <?php echo $row['title'] ?></a></div>
                     </div>
                     <?php
                 }
