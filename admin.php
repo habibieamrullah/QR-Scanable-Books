@@ -230,6 +230,31 @@ if(isset($_GET["tambahbuku"])){
 }else if(isset($_GET["logout"])){
     session_destroy();
     echo "<script>location.href='?admin';</script>";
+}else if(isset($_GET["uploadulang"])){
+    
+    $filename = mysqli_real_escape_string($connection, $_GET["uploadulang"]);
+    ?>
+    <h2>Upload Ulang File PDF</h2>
+    
+    <?php
+    if(isset($_POST["submit"])){
+        $target_dir = "upl/";
+        $target_file = $target_dir . $filename;
+        if(move_uploaded_file($_FILES['fileuploadulang']['tmp_name'], $target_file)){
+            echo "File berhasil diupload.";
+        }else{
+            echo "Gagal. Coba lagi.";
+        }
+    }else{
+        ?>
+        <form method="post" enctype="multipart/form-data">
+            Pilih file untuk diupload:
+            <input type="file" name="fileuploadulang" id="fpdf" accept="application/pdf"><br>
+            <input type="submit" value="Upload Image" name="submit">
+        </form>
+        <?php
+    }
+    
 }else{
     
     if(isset($_GET["hapusbuku"])){
@@ -276,11 +301,21 @@ if(isset($_GET["tambahbuku"])){
         $result = mysqli_query($connection, $sql);
         if($result){
             if(mysqli_num_rows($result) > 0){
-                echo "<table><tr><th>Judul</th><th>QR Code</th><th>Dikunci (PIN)</th><th>Hapus Buku</th></tr>";
+                echo "<table><tr><th>Judul</th><th>File PDF (direct link)</th><th>Link Publik</th><th>QR Code</th><th>Dikunci (PIN)</th><th>Hapus Buku</th></tr>";
                 while($row = mysqli_fetch_assoc($result)){
                     ?>
                     <tr>
                         <td><?php echo $row["title"] ?></td>
+                        <td><?php
+                        
+                            if(file_exists("upl/" . $row["slug"] . ".pdf")){
+                                ?><a href="upl/<?php echo $row["slug"] ?>.pdf" target="_blank">Buka</a><?php
+                            }else{
+                                ?><a style="color: red;" href="?admin&uploadulang=<?php echo $row["slug"] ?>.pdf">Perlu Upload Ulang</a><?php
+                            }
+                        
+                        ?></td>
+                        <td><a href="books.php?code=<?php echo $row["uniqid"] ?>" target="_blank">Buka</a></td>
                         <td><a href="upl/<?php echo $row["slug"] ?>-qr.png" target="_blank"><i class='fa fa-qrcode'></i> Tampilkan QRCode</a></td>
                         <td><?php if($row["locked"] == 0){echo "<a href='?admin&lock=" .$row["id"]. "'><i class='fa fa-toggle-off'></i></a>"; }else{echo "<a href='?admin&unlock=" .$row["id"]. "'><i class='fa fa-toggle-on'></i></a>";} ?></a></td>
                         <td><a href="?admin&hapusbuku=<?php echo $row["id"] ?>"><i class='fa fa-trash'></i> Hapus</a></td>
